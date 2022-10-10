@@ -25,7 +25,7 @@ class ViewController: UIViewController {
         configureButtons()
 
         countries += ["estonia","france","germany","ireland","italy","monaco","nigeria","poland","russia","spain","uk","us"]
-        selectFlags()
+        askQuestion()
         
 
     }
@@ -54,7 +54,7 @@ class ViewController: UIViewController {
         buttonThree.configuration?.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
     }
     
-    private func selectFlags() {
+    private func askQuestion() {
         countries.shuffle()
         correctAnswer = Int.random(in: 0...2)
         buttonOne.setImage(UIImage(named: countries[0]), for: .normal)
@@ -63,6 +63,22 @@ class ViewController: UIViewController {
         title = countries[correctAnswer].uppercased()
     }
 
-
+    @IBAction func onAnswerSelected(_ sender: UIButton) {
+       
+        var title:String
+        if sender.tag == correctAnswer {
+            userScore += 1
+            title = "Correct!"
+        }
+        else {
+            userScore -= 1
+            title = "Wrong!"
+        }
+        let ac = UIAlertController(title: title, message: "Your Score is \(userScore)", preferredStyle: .alert)
+        ac.addAction(UIAlertAction(title: "Continue", style: .default, handler:
+                                    {(_)in self.askQuestion()}))
+        present(ac, animated: true)
+    }
+    
 }
 

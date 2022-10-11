@@ -11,6 +11,7 @@ class ViewController: UIViewController {
 
     var countries = [String]()
     var userScore = 0
+    var answerdQuestionsCounter = 0
     var correctAnswer: Int!
     
     @IBOutlet weak var buttonOne: UIButton!
@@ -23,11 +24,9 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         configureButtons()
-
         countries += ["estonia","france","germany","ireland","italy","monaco","nigeria","poland","russia","spain","uk","us"]
-        askQuestion()
         
-
+        askQuestion()
     }
     
     private func configureButtons(){
@@ -60,24 +59,47 @@ class ViewController: UIViewController {
         buttonOne.setImage(UIImage(named: countries[0]), for: .normal)
         buttonTwo.setImage(UIImage(named: countries[1]), for: .normal)
         buttonThree.setImage(UIImage(named: countries[2]), for: .normal)
-        title = countries[correctAnswer].uppercased()
+        title = "\(answerdQuestionsCounter+1) - \(countries[correctAnswer].uppercased())"
     }
 
     @IBAction func onAnswerSelected(_ sender: UIButton) {
-       
+        answerdQuestionsCounter += 1
         var title:String
         if sender.tag == correctAnswer {
             userScore += 1
             title = "Correct!"
         }
         else {
-            userScore -= 1
-            title = "Wrong!"
+            title = "Wrong!, This the Flag of \(countries[sender.tag].uppercased())"
         }
-        let ac = UIAlertController(title: title, message: "Your Score is \(userScore)", preferredStyle: .alert)
-        ac.addAction(UIAlertAction(title: "Continue", style: .default, handler:
-                                    {(_)in self.askQuestion()}))
+        showAlert(withTitle: title)
+    }
+    
+    private func showAlert(withTitle title:String){
+        if answerdQuestionsCounter == 10 {
+            showNewGameAlert(withTitle: title)
+        }else{
+            showNormalAlert(withTitle: title)
+        }
+    }
+    
+    
+    private func showNewGameAlert(withTitle title:String){
+        let ac = UIAlertController(title: title, message: "Your Score is \(userScore) out of 10", preferredStyle: .alert)
+        ac.addAction(UIAlertAction(title: "Play agin", style: .default){(_)in self.resetTheGame()})
         present(ac, animated: true)
+    }
+    
+    private func showNormalAlert(withTitle title:String){
+        let ac = UIAlertController(title: title, message: "Your Score is \(userScore)", preferredStyle: .alert)
+        ac.addAction(UIAlertAction(title: "Continue", style: .default){(_)in self.askQuestion()})
+        present(ac, animated: true)
+    }
+    
+    private func resetTheGame(){
+        self.answerdQuestionsCounter = 0
+        self.userScore = 0
+        self.askQuestion()
     }
     
 }

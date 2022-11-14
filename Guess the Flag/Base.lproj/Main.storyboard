@@ -18,6 +18,9 @@
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ne1-3G-b4c">
                                 <rect key="frame" x="95" y="128" width="224" height="114"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="ne1-3G-b4c" secondAttribute="height" multiplier="112:57" id="jkT-VJ-nRw"/>
+                                </constraints>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" image="france"/>
                                 <connections>
@@ -26,6 +29,9 @@
                             </button>
                             <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oyu-lx-Cm4">
                                 <rect key="frame" x="95" y="262" width="224" height="114"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="oyu-lx-Cm4" secondAttribute="height" multiplier="112:57" id="Rom-gE-Fao"/>
+                                </constraints>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" image="us"/>
                                 <connections>
@@ -34,6 +40,9 @@
                             </button>
                             <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uB8-f3-I0k">
                                 <rect key="frame" x="95" y="396" width="224" height="114"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="uB8-f3-I0k" secondAttribute="height" multiplier="112:57" id="1QV-ce-4yO"/>
+                                </constraints>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" image="germany"/>
                                 <connections>
@@ -45,11 +54,14 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="uB8-f3-I0k" firstAttribute="centerX" secondItem="oyu-lx-Cm4" secondAttribute="centerX" id="60q-Fe-A4c"/>
+                            <constraint firstItem="uB8-f3-I0k" firstAttribute="height" secondItem="oyu-lx-Cm4" secondAttribute="height" id="7XF-72-FHe"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="uB8-f3-I0k" secondAttribute="bottom" constant="20" id="8kG-2P-h0M"/>
                             <constraint firstItem="uB8-f3-I0k" firstAttribute="top" secondItem="oyu-lx-Cm4" secondAttribute="bottom" constant="20" id="MIH-5r-ycE"/>
                             <constraint firstItem="ne1-3G-b4c" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="Wyj-TO-Hw1"/>
                             <constraint firstItem="oyu-lx-Cm4" firstAttribute="top" secondItem="ne1-3G-b4c" secondAttribute="bottom" constant="20" id="ZHo-0T-w99"/>
                             <constraint firstItem="ne1-3G-b4c" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="40" id="b1t-UZ-S4F"/>
                             <constraint firstItem="oyu-lx-Cm4" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="lwE-nO-ocV"/>
+                            <constraint firstItem="oyu-lx-Cm4" firstAttribute="height" secondItem="ne1-3G-b4c" secondAttribute="height" id="nw9-w3-jn9"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="moB-nM-VCt"/>

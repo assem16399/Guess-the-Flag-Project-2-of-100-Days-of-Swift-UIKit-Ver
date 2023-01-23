@@ -8,11 +8,13 @@
 import UIKit
 
 class ViewController: UIViewController {
-
+    
     var countries = [String]()
     var userScore = 0
     var answerdQuestionsCounter = 0
     var correctAnswer: Int!
+    var highScore = 0
+    var prevHighScore:Int?
     
     @IBOutlet weak var buttonOne: UIButton!
     
@@ -27,10 +29,18 @@ class ViewController: UIViewController {
         countries += ["estonia","france","germany","ireland","italy","monaco","nigeria","poland","russia","spain","uk","us"]
         
         configureBarButton()
-    
+        
         askQuestion()
+        getHighScoreFromUserDefaults()
     }
     
+    
+    func getHighScoreFromUserDefaults() {
+        let defaults = UserDefaults.standard
+        
+        highScore = defaults.integer(forKey: "highScore")
+        
+    }
     private func configureBarButton(){
         let eyeImage = UIImage(systemName: "eye")
         
@@ -74,13 +84,16 @@ class ViewController: UIViewController {
         buttonThree.setImage(UIImage(named: countries[2]), for: .normal)
         title = "\(answerdQuestionsCounter+1) - \(countries[correctAnswer].uppercased())"
     }
-
+    
     @IBAction func onAnswerSelected(_ sender: UIButton) {
         answerdQuestionsCounter += 1
         var title:String
         if sender.tag == correctAnswer {
             userScore += 1
             title = "Correct!"
+            if userScore > highScore {
+                updateHighScore()
+            }
         }
         else {
             title = "Wrong!, This the Flag of \(countries[sender.tag].uppercased())"
@@ -88,6 +101,15 @@ class ViewController: UIViewController {
         showAlert(withTitle: title)
     }
     
+    private func updateHighScore() {
+        prevHighScore = highScore
+        highScore = userScore
+    }
+    
+    private func updateHighScoreInsideUserDefaults() {
+        let defaults = UserDefaults.standard
+        defaults.set(highScore, forKey: "highScore")
+    }
     private func showAlert(withTitle title:String){
         if answerdQuestionsCounter == 10 {
             showNewGameAlert(withTitle: title)
@@ -98,7 +120,17 @@ class ViewController: UIViewController {
     
     
     private func showNewGameAlert(withTitle title:String){
-        let ac = UIAlertController(title: title, message: "Your Score is \(userScore) out of 10", preferredStyle: .alert)
+        let ac:UIAlertController
+        if let prevHighScore {
+            let message = highScore>prevHighScore ? """
+Congrats, you've achieved a new high score.
+Your score is \(userScore) out if 10
+""" : "Your score is \(userScore) out if 10"
+            ac = UIAlertController(title: title, message: message, preferredStyle: .alert)
+            updateHighScoreInsideUserDefaults()
+        }else{
+            ac = UIAlertController(title: title, message: "Your Score is \(userScore) out of 10", preferredStyle: .alert)
+        }
         ac.addAction(UIAlertAction(title: "Play agin", style: .default){(_)in self.resetTheGame()})
         present(ac, animated: true)
     }
@@ -120,22 +152,22 @@ class ViewController: UIViewController {
 
 
 extension UIViewController {
-
-func showToast(message : String, font: UIFont) {
-
-    let toastLabel = UILabel(frame: CGRect(x: self.view.frame.size.width/2 - 75, y: self.view.frame.size.height-100, width: 150, height: 35))
-    toastLabel.backgroundColor = UIColor.black.withAlphaComponent(0.6)
-    toastLabel.textColor = UIColor.white
-    toastLabel.font = font
-    toastLabel.textAlignment = .center;
-    toastLabel.text = message
-    toastLabel.alpha = 1.0
-    toastLabel.layer.cornerRadius = 10;
-    toastLabel.clipsToBounds  =  true
-    self.view.addSubview(toastLabel)
-    UIView.animate(withDuration: 4.0, delay: 0.1, options: .curveEaseOut, animations: {
-         toastLabel.alpha = 0.0
-    }, completion: {(isCompleted) in
-        toastLabel.removeFromSuperview()
-    })
-} }
+    
+    func showToast(message : String, font: UIFont) {
+        
+        let toastLabel = UILabel(frame: CGRect(x: self.view.frame.size.width/2 - 75, y: self.view.frame.size.height-100, width: 150, height: 35))
+        toastLabel.backgroundColor = UIColor.black.withAlphaComponent(0.6)
+        toastLabel.textColor = UIColor.white
+        toastLabel.font = font
+        toastLabel.textAlignment = .center;
+        toastLabel.text = message
+        toastLabel.alpha = 1.0
+        toastLabel.layer.cornerRadius = 10;
+        toastLabel.clipsToBounds  =  true
+        self.view.addSubview(toastLabel)
+        UIView.animate(withDuration: 4.0, delay: 0.1, options: .curveEaseOut, animations: {
+            toastLabel.alpha = 0.0
+        }, completion: {(isCompleted) in
+            toastLabel.removeFromSuperview()
+        })
+    } }

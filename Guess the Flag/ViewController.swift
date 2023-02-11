@@ -82,10 +82,20 @@ class ViewController: UIViewController {
         buttonOne.setImage(UIImage(named: countries[0]), for: .normal)
         buttonTwo.setImage(UIImage(named: countries[1]), for: .normal)
         buttonThree.setImage(UIImage(named: countries[2]), for: .normal)
+        resetButtonsAnimation()
         title = "\(answerdQuestionsCounter+1) - \(countries[correctAnswer].uppercased())"
     }
     
+    func resetButtonsAnimation() {
+        buttonOne.transform = .identity
+        buttonTwo.transform = .identity
+        buttonThree.transform = .identity
+    }
+    
     @IBAction func onAnswerSelected(_ sender: UIButton) {
+        UIView.animate(withDuration: 1, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 5.0, animations: {
+            sender.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
+        })
         answerdQuestionsCounter += 1
         var title:String
         if sender.tag == correctAnswer {
